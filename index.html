@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gang Bot — Guide</title>
+<style>
+  :root {
+    --bg: #14161b; --panel: #1c1f26; --panel2: #242833; --line: #2f3442;
+    --text: #e3e6ee; --dim: #939aad; --accent: #5865f2; --accent2: #7983f5;
+    --green: #3ba55d; --red: #ed4245; --yellow: #f0b232;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 system-ui, "Segoe UI", sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px 80px; }
+
+  header { padding: 56px 0 8px; }
+  header h1 { font-size: 34px; margin: 0 0 6px; }
+  header p { color: var(--dim); margin: 0; font-size: 17px; }
+
+  nav {
+    position: sticky; top: 0; background: rgba(20,22,27,.92); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line); margin: 28px -20px 36px; padding: 10px 20px;
+    display: flex; gap: 6px; flex-wrap: wrap; z-index: 5;
+  }
+  nav a {
+    color: var(--dim); text-decoration: none; font-size: 14px; font-weight: 600;
+    padding: 5px 12px; border-radius: 99px;
+  }
+  nav a:hover { color: var(--text); background: var(--panel2); }
+
+  h2 { font-size: 24px; margin: 52px 0 6px; padding-top: 8px; }
+  h2 .tag { font-size: 12px; vertical-align: middle; margin-left: 8px; padding: 3px 10px; border-radius: 99px; font-weight: 700; }
+  .tag.everyone { background: #1f3527; color: #6fdc8f; }
+  .tag.gang { background: #1f2a45; color: #8ea9ff; }
+  .tag.staff { background: #3a2f45; color: #c29ffa; }
+  .tag.admin { background: #3d2b22; color: #ffb46b; }
+  h3 { font-size: 18px; margin: 30px 0 8px; }
+  p.lead { color: var(--dim); margin-top: 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px; }
+  th { text-align: left; color: var(--dim); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; padding: 8px 12px; border-bottom: 2px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  .tablebox { overflow-x: auto; }
+
+  code {
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 5px;
+    padding: 1px 7px; font-size: 14px; font-family: ui-monospace, Consolas, monospace; color: var(--accent2);
+  }
+  .cmd { color: #8ea9ff; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; margin: 16px 0; }
+  .card h4 { margin: 0 0 6px; font-size: 15px; }
+  .steps { counter-reset: step; padding-left: 0; }
+  .steps li { list-style: none; counter-increment: step; position: relative; padding-left: 42px; margin: 14px 0; }
+  .steps li::before {
+    content: counter(step); position: absolute; left: 0; top: 1px;
+    width: 26px; height: 26px; border-radius: 99px; background: var(--accent); color: #fff;
+    font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .note { border-left: 3px solid var(--yellow); background: var(--panel); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 15px; }
+  .note.green { border-color: var(--green); }
+
+  .emoji-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0; }
+  .emoji-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; flex: 1; min-width: 200px; }
+  .emoji-card b { font-size: 20px; margin-right: 8px; }
+
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { color: var(--dim); margin-bottom: 4px; }
+
+  footer { color: var(--dim); font-size: 13px; margin-top: 64px; border-top: 1px solid var(--line); padding-top: 20px; }
+  @media (max-width: 560px) { header h1 { font-size: 26px; } h2 { font-size: 20px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🤖 Gang Bot — Guide</h1>
+  <p>KOS calls, war records, weeklies, price lists, rosters &amp; rules — everything your gang runs on, in one bot.</p>
+</header>
+
+<nav>
+  <a href="#members">Members</a>
+  <a href="#kos">KOS flow</a>
+  <a href="#staff">Staff</a>
+  <a href="#admins">Admin setup</a>
+  <a href="#sheet">Google Sheet</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<h2 id="members">Commands for everyone <span class="tag everyone">all members</span></h2>
+<p class="lead">No special role needed.</p>
+<div class="tablebox">
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td><code class="cmd">/kos</code></td><td>Declare a KOS on an enemy gang. Options: <code>gang</code> (required), <code>duration</code> (grace period in minutes), <code>starttime</code> (Sydney time HH:MM — grace is worked out automatically), <code>location</code>.</td></tr>
+  <tr><td><code class="cmd">/rules</code></td><td>Look up a rule by code (e.g. <code>S.1</code>) or <code>list</code> for all rules &amp; fines.</td></tr>
+  <tr><td><code class="cmd">/contactlist</code></td><td>The gang roster with names and phone numbers, by rank.</td></tr>
+  <tr><td><code class="cmd">/info</code></td><td>Post gang info: uniform code, KOS colors, gang status, sheets link.</td></tr>
+  <tr><td><code class="cmd">/radio</code></td><td>Post the radio frequency — pass a number, or <code>randomfx</code> for a random one.</td></tr>
+  <tr><td><code class="cmd">/ping</code></td><td>Check the bot is alive.</td></tr>
+</table>
+</div>
+
+<h3>Reactions — how you check in</h3>
+<div class="emoji-row">
+  <div class="emoji-card"><b>💀</b> On a KOS post: <b>you went down</b> during the KOS. The embed updates live.</div>
+  <div class="emoji-card"><b>⚔️</b> On a KOS post: <b>you're attending</b> the fight. Used for the war record attendance list.</div>
+  <div class="emoji-card"><b>✅</b> On a weekly post: you've <b>paid your weekly</b>. On the daily roster call: you're <b>in for gang stuff today</b>.</div>
+</div>
+
+<h2 id="kos">How a KOS runs, start to finish</h2>
+<ol class="steps">
+  <li>Someone runs <code class="cmd">/kos gang:Sierra Cartel</code>. With a <code>duration</code> or <code>starttime</code>, it starts in a <b>grace period</b> (yellow) — do not engage yet. Without one, it's <b>active</b> (red) immediately.</li>
+  <li>Members react <b>⚔️ attending</b> and, if they get dropped, <b>💀 down</b>.</li>
+  <li>Grace ends automatically at the deadline — or staff hit <b>⚡ End Grace</b> to go active early.</li>
+  <li>When it's over, the caller or staff hit <b>🛑 End KOS</b>, then answer the <b>WON / LOST</b> prompt.</li>
+  <li>The bot logs the result to the war record channel — <i>"YourGang V TheirGang - date"</i>, win/loss coloured, with the attendance list (⚔️ reactors minus 💀). Staff can fix attendance or flip the result later with the buttons on that post.</li>
+</ol>
+
+<h2 id="staff">Staff commands <span class="tag staff">command role</span></h2>
+<p class="lead">Need the gang's <b>command role</b> (unless your admins configured separate pricelist/weekly/warns roles).</p>
+<div class="tablebox">
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td><code class="cmd">/pricelist</code></td><td>Post the price list from the gang sheet — <code>public</code>, <code>trusted</code> or <code>loyal</code> tier. Out-of-stock items (blank/0 price) are hidden.</td></tr>
+  <tr><td><code class="cmd">/weekly</code></td><td>Open weekly payments for a date. Members react ✅ when paid; close it with the 🔒 button.</td></tr>
+  <tr><td><code class="cmd">/warns</code></td><td>Check gang warns — by member name, DUID, or <code>list</code> for everyone. 3 warns = PK.</td></tr>
+  <tr><td><code class="cmd">/changeresult</code></td><td>Correct WON/LOST on an already-posted war record — paste the message link or ID.</td></tr>
+  <tr><td>KOS buttons</td><td><b>End KOS / End Grace / WON / LOST</b> — command role or the person who called the KOS.</td></tr>
+  <tr><td>War record buttons</td><td><b>➕ Add Member / ➖ Remove Member / 🔄 Change Result</b> on any war record post.</td></tr>
+</table>
+</div>
+
+<h3>Gang-role commands <span class="tag gang">gang role</span></h3>
+<div class="tablebox">
+<table>
+  <tr><td><code class="cmd">/sheets</code></td><td>Post the link to the gang sheets.</td></tr>
+  <tr><td><code class="cmd">/sticky</code> / <code class="cmd">/unsticky</code></td><td>Pin a message that reposts itself at the bottom of the channel. Survives bot restarts.</td></tr>
+</table>
+</div>
+
+<h3>Automatic — no command needed</h3>
+<div class="card">
+  <p style="margin:6px 0">📊 <b>Price list auto-update</b> — if a price channel is configured, the bot checks the sheet every 5 minutes and updates its post when prices change.</p>
+  <p style="margin:6px 0">📢 <b>Daily roster call</b> — 4:00 PM Sydney time in the configured roster channel. React ✅ if you're in today.</p>
+</div>
+
+<h2 id="admins">Admin setup <span class="tag admin">server admins</span></h2>
+<p class="lead">One command gets a new gang running. You need Discord <b>Administrator</b> permission.</p>
+
+<ol class="steps">
+  <li><b>Share your Google Sheet</b> with the bot's service account (Viewer):<br><code>drakos-bot@gothic-client-329620.iam.gserviceaccount.com</code></li>
+  <li>Run <code class="cmd">/setup</code> with: <code>gangname</code>, <code>gangrole</code>, <code>commandrole</code>, <code>sheetid</code> (paste the full sheet URL — the bot extracts the ID), <code>warrecordchannel</code>, and optionally <code>rosterchannel</code> + <code>pricechannel</code>.</li>
+  <li>Check it with <code class="cmd">/viewconfig</code>. Adjust anything later with <code class="cmd">/editconfig</code>.</li>
+</ol>
+
+<h3>All settings (<code class="cmd">/editconfig</code>)</h3>
+<div class="tablebox">
+<table>
+  <tr><th>Setting</th><th>What it controls</th><th>Default</th></tr>
+  <tr><td>Gang Name</td><td>Embed titles, war record titles ("YourGang V …")</td><td>—</td></tr>
+  <tr><td>Gang Role</td><td>Pinged for KOS &amp; roster calls; gates /sheets and /sticky</td><td>—</td></tr>
+  <tr><td>Command Role</td><td>All staff actions above</td><td>—</td></tr>
+  <tr><td>Pricelist / Weekly / Warns Role</td><td>Split those three commands onto their own roles</td><td>falls back to Command Role</td></tr>
+  <tr><td>Price Channel</td><td>Auto-updating price list post</td><td>off</td></tr>
+  <tr><td>War Record Channel</td><td>Where finished KOS results are logged</td><td>—</td></tr>
+  <tr><td>Roster Channel</td><td>Daily 4 PM roster call</td><td>off</td></tr>
+  <tr><td>Sheet ID / Sheets Link</td><td>Your gang's Google Sheet</td><td>—</td></tr>
+  <tr><td>Price / Roster / Rules / Warns Range</td><td>Where each feature reads in the sheet</td><td>see <a href="#sheet">Sheet layout</a></td></tr>
+  <tr><td>Roster Ranks</td><td>Your rank names, comma-separated, as they appear in the roster column</td><td>Archon → Next On</td></tr>
+  <tr><td>Roster Hidden Ranks</td><td>Ranks left out of /contactlist</td><td>Supplicant, Inactive, Next On</td></tr>
+  <tr><td>Logo URL</td><td>Logo shown on /info</td><td>off</td></tr>
+</table>
+</div>
+<p><code class="cmd">/resetconfig</code> wipes everything for this server (config only — no messages are touched).</p>
+
+<h2 id="sheet">Google Sheet layout</h2>
+<p class="lead">Defaults match this layout — if your sheet differs, point the ranges elsewhere with <code class="cmd">/editconfig</code>.</p>
+<div class="tablebox">
+<table>
+  <tr><th>Feature</th><th>Default range</th><th>Expected columns</th></tr>
+  <tr><td>Price list</td><td><code>Price List!C4:G</code></td><td>C = item · E = loyal price · F = trusted · G = public. Blank/0 = out of stock.</td></tr>
+  <tr><td>Roster</td><td><code>Dashboard!G3:G50</code></td><td>One column: rank name on its own row, then members as <code>Name | #Phone | CID | Discord</code>.</td></tr>
+  <tr><td>Rules</td><td><code>Rules &amp; Fines!B8:E25</code></td><td>B = code (S.1…) · C = description · D = 1st punishment · E = 2nd.</td></tr>
+  <tr><td>Warns</td><td><code>Fine Log!N7:R</code></td><td>N = name · O = DUID · P/Q/R = warn checkboxes.</td></tr>
+</table>
+</div>
+
+<h2 id="faq">FAQ &amp; troubleshooting</h2>
+<details><summary>Commands don't show up in my server</summary>
+  <p>Press <b>Ctrl+R</b> in Discord first — it caches the command list. If they're still missing, the bot may have just joined; commands are pushed on join, so give it a few seconds or ask the bot owner.</p></details>
+<details><summary>"This server is not set up yet"</summary>
+  <p>An administrator needs to run <code class="cmd">/setup</code> — nothing works before that.</p></details>
+<details><summary>Price list / rules / warns say "Failed to fetch"</summary>
+  <p>Nine times out of ten: the sheet isn't shared with the service account (see <a href="#admins">Admin setup</a>, step 1), or the Sheet ID is wrong. Otherwise the range doesn't match your sheet's tab names — check <code class="cmd">/viewconfig</code>.</p></details>
+<details><summary>The End KOS button says "interaction failed"</summary>
+  <p>Try again — if the bot restarted recently it rebuilds the KOS from the message itself. Attendance/death lists gathered <i>before</i> a restart can't be recovered, so staff can fix the attendance on the war record post afterwards with ➕/➖.</p></details>
+<details><summary>What time is the roster call?</summary>
+  <p>4:00 PM Sydney time (AEST), daily, in your configured roster channel. No roster channel configured = no roster call.</p></details>
+<details><summary>Who can end a KOS?</summary>
+  <p>The person who declared it, or anyone with the command role. Same for choosing WON/LOST.</p></details>
+
+<footer>Gang Bot — multi-server FiveM gang management. Questions → your server's bot admin.</footer>
+
+</div>
+</body>
+</html>
