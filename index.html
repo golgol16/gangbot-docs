@@ -348,7 +348,11 @@
           Reactions</b>. If the channel is locked down, add the bot's role to the channel overrides.</li>
     </ol>
 
-    <h3>Step 4 - Share your Google Sheet with the bot</h3>
+    <h3>Step 4 - Share your Google Sheet with the bot <i>(skip if your gang has no sheet)</i></h3>
+    <p><i>The sheet is optional. Without one, everything works except the sheet-powered commands:
+        <code class="cmd">/pricelist</code>, <code class="cmd">/rules</code>, <code class="cmd">/warns</code> and
+        <code class="cmd">/contactlist</code> - they'll reply "needs a Google Sheet" until an admin adds one via
+        <code class="cmd">/editconfig</code> → Sheet ID.</i></p>
     <ol class="steps">
       <li>Open your gang's Google Sheet in a browser.</li>
       <li>Click the green <b>Share</b> button (top-right).</li>
@@ -389,15 +393,16 @@
           <td>Pick the <b>command role</b> from Step 2. Remember: this locks all staff commands.</td>
         </tr>
         <tr>
-          <td><code>sheetid</code></td>
-          <td>✅</td>
-          <td>Paste the <b>full sheet URL</b> you copied in Step 4. The bot extracts the sheet ID and saves the link
-            for <code class="cmd">/sheets</code> and <code class="cmd">/info</code> automatically.</td>
-        </tr>
-        <tr>
           <td><code>warrecordchannel</code></td>
           <td>✅</td>
           <td>Pick the war record channel from Step 3.</td>
+        </tr>
+        <tr>
+          <td><code>sheetid</code></td>
+          <td>optional</td>
+          <td>Paste the <b>full sheet URL</b> you copied in Step 4. The bot extracts the sheet ID and saves the link
+            for <code class="cmd">/sheets</code> and <code class="cmd">/info</code> automatically. Skip if your gang
+            has no sheet.</td>
         </tr>
         <tr>
           <td><code>rosterchannel</code></td>
@@ -416,8 +421,9 @@
     <ol class="steps">
       <li>Run <code class="cmd">/viewconfig</code> - roles and channels should render as blue mentions (not raw
         numbers), and the four sheet ranges show <i>(default)</i>.</li>
-      <li>Run <code class="cmd">/rules rule:list</code> or <code class="cmd">/contactlist</code> - if data comes back,
-        the sheet connection works. "Failed to fetch" = Step 4 wasn't done or the URL was wrong.</li>
+      <li>If you configured a sheet: run <code class="cmd">/rules rule:list</code> or
+        <code class="cmd">/contactlist</code> - if data comes back, the sheet connection works. "Failed to fetch" =
+        Step 4 wasn't done or the URL was wrong.</li>
       <li>Run a test <code class="cmd">/kos gang:Test</code>, hit <b>🛑 End KOS</b>, pick a result, and confirm it lands
         in your war record channel. Delete the test posts after.</li>
     </ol>
