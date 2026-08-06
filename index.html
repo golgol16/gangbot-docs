@@ -272,10 +272,36 @@
     details.reqbox {
       padding: 16px 22px;
       margin: 20px 0;
+      border: 1px solid var(--accent);
+      background: linear-gradient(180deg, rgba(88, 101, 242, .13), var(--panel) 75%);
+      box-shadow: 0 0 18px rgba(88, 101, 242, .25);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      details.reqbox:not([open]) {
+        animation: reqglow 2.8s ease-in-out infinite;
+      }
+    }
+
+    @keyframes reqglow {
+      0%, 100% { box-shadow: 0 0 12px rgba(88, 101, 242, .18); }
+      50% { box-shadow: 0 0 28px rgba(88, 101, 242, .5); }
     }
 
     details.reqbox summary {
       font-size: 17px;
+      color: var(--accent2);
+    }
+
+    details.reqbox summary .hint {
+      color: var(--dim);
+      font-weight: 400;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+
+    details.reqbox[open] summary .hint {
+      display: none;
     }
 
     details.reqbox p {
@@ -310,7 +336,7 @@
   <div class="wrap">
 
     <header>
-      <h1>🤖 Gang Bot - Guide</h1>
+      <h1>Gang Bot - Guide</h1>
       <p>KOS calls, war records, weeklies, price lists, rosters &amp; rules - everything your gang runs on, in one bot.
       </p>
     </header>
@@ -331,62 +357,67 @@
       replies "This server is not set up yet".</div>
 
     <details class="reqbox">
-      <summary>📋 Requirements - get these ready before running /setup</summary>
+      <summary> Requirements - get these ready before running /setup<span class="hint">👈 click to expand</span></summary>
 
       <h3>Req 1 - Enable Developer Mode (for copying IDs)</h3>
-    <ol class="steps">
-      <li>Open Discord <b>User Settings</b> (⚙️ next to your name) → <b>Advanced</b> → turn <b>Developer Mode</b> ON.
-      </li>
-      <li>With it on, right-clicking any <b>role, channel, user or message</b> shows <b>Copy ID</b> - that number is the
-        UID.</li>
-    </ol>
-    <p><i>You won't need IDs during <code class="cmd">/setup</code> itself - it uses Discord's pickers where you select
-        roles and channels from a list. IDs matter later for <code class="cmd">/editconfig</code> values.</i></p>
+      <ol class="steps">
+        <li>Open Discord <b>User Settings</b> (⚙️ next to your name) → <b>Advanced</b> → turn <b>Developer Mode</b> ON.
+        </li>
+        <li>With it on, right-clicking any <b>role, channel, user or message</b> shows <b>Copy ID</b> - that number is
+          the
+          UID.</li>
+      </ol>
+      <p><i>You won't need IDs during <code class="cmd">/setup</code> itself - it uses Discord's pickers where you
+          select
+          roles and channels from a list. IDs matter later for <code class="cmd">/editconfig</code> values.</i></p>
 
-    <h3>Req 2 - Have the roles ready</h3>
-    <ol class="steps">
-      <li>Go to <b>Server Settings → Roles</b> and make sure you have a <b>gang role</b> - the role every active member
-        carries. The bot pings this role for KOS declarations and the daily roster call, and it gates
-        <code class="cmd">/sheets</code> and <code class="cmd">/sticky</code>. An existing "Active Roster" role works
-        fine.
-      </li>
-      <li>Make sure you have a <b>command role</b> - your staff/leadership role, usually the role you use for your
-        command chats. <b>This one matters:</b> it controls
-        who can end a KOS, pick WON/LOST, edit war records, run <code class="cmd">/changeresult</code>, and (unless you
-        split them later) <code class="cmd">/pricelist</code>, <code class="cmd">/weekly</code> and
-        <code class="cmd">/warns</code>.
-      </li>
-    </ol>
+      <h3>Req 2 - Have the roles ready</h3>
+      <ol class="steps">
+        <li>Go to <b>Server Settings → Roles</b> and make sure you have a <b>gang role</b> - the role every active
+          member
+          carries. The bot pings this role for KOS declarations and the daily roster call, and it gates
+          <code class="cmd">/sheets</code> and <code class="cmd">/sticky</code>. An existing "Active Roster" role works
+          fine.
+        </li>
+        <li>Make sure you have a <b>command role</b> - your staff/leadership role, usually the role you use for your
+          command chats. <b>This one matters:</b> it controls
+          who can end a KOS, pick WON/LOST, edit war records, run <code class="cmd">/changeresult</code>, and (unless
+          you
+          split them later) <code class="cmd">/pricelist</code>, <code class="cmd">/weekly</code> and
+          <code class="cmd">/warns</code>.
+        </li>
+      </ol>
 
-    <h3>Req 3 - Create the channels</h3>
-    <ol class="steps">
-      <li><b>War record channel</b> (required) - where the bot logs every finished KOS with its WON/LOST result and
-        attendance list. Usually locked so only the bot posts.</li>
-      <li><b>Roster channel</b> (optional) - the bot posts a roster call ping here every day at <b>4:00 PM Sydney
-          time</b>. Skip it if you don't want the daily ping.</li>
-      <li><b>Price channel</b> (optional) - the bot keeps one auto-updating price list message here, refreshed from your
-        sheet every 5 minutes. Skip it if you don't sell.</li>
-      <li>In each of these channels the bot needs permission to <b>View Channel, Send Messages, Embed Links and Add
-          Reactions</b>. If the channel is locked down, add the bot's role to the channel overrides.</li>
-    </ol>
+      <h3>Req 3 - Create the channels</h3>
+      <ol class="steps">
+        <li><b>War record channel</b> (required) - where the bot logs every finished KOS with its WON/LOST result and
+          attendance list. Usually locked so only the bot posts.</li>
+        <li><b>Roster channel</b> (optional) - the bot posts a roster call ping here every day at <b>4:00 PM Sydney
+            time</b>. Skip it if you don't want the daily ping.</li>
+        <li><b>Price channel</b> (optional) - the bot keeps one auto-updating price list message here, refreshed from
+          your
+          sheet every 5 minutes. Skip it if you don't sell.</li>
+        <li>In each of these channels the bot needs permission to <b>View Channel, Send Messages, Embed Links and Add
+            Reactions</b>. If the channel is locked down, add the bot's role to the channel overrides.</li>
+      </ol>
 
-    <h3>Req 4 (Optional) - Share your Google Sheet with the bot <i>(skip if your gang has no sheet)</i></h3>
-    <p><i>The sheet is optional. Without one, everything works except the sheet-powered commands:
-        <code class="cmd">/pricelist</code>, <code class="cmd">/rules</code>, <code class="cmd">/warns</code> and
-        <code class="cmd">/contactlist</code> - they'll reply "needs a Google Sheet" until an admin adds one via
-        <code class="cmd">/editconfig</code> → Sheet ID.</i></p>
-    <ol class="steps">
-      <li>Open your gang's Google Sheet in a browser.</li>
-      <li>Click the green <b>Share</b> button (top-right).</li>
-      <li>Paste this email into the "Add people" box:<br>
-        <code>drakos-bot@gothic-client-329620.iam.gserviceaccount.com</code>
-      </li>
-      <li>Set the access to <b>Viewer</b> (the bot only reads, never writes) and click <b>Share</b> / <b>Send</b>. You
-        can untick "Notify people".</li>
-      <li>Copy the <b>full sheet URL</b> from your browser's address bar - you'll paste it into
-        <code class="cmd">/setup</code> in the next step.
-      </li>
-    </ol>
+      <h3>Req 4 (Optional) - Share your Google Sheet with the bot <i>(skip if your gang has no sheet)</i></h3>
+      <p><i>The sheet is optional. Without one, everything works except the sheet-powered commands:
+          <code class="cmd">/pricelist</code>, <code class="cmd">/rules</code>, <code class="cmd">/warns</code> and
+          <code class="cmd">/contactlist</code> - they'll reply "needs a Google Sheet" until an admin adds one via
+          <code class="cmd">/editconfig</code> → Sheet ID.</i></p>
+      <ol class="steps">
+        <li>Open your gang's Google Sheet in a browser.</li>
+        <li>Click the green <b>Share</b> button (top-right).</li>
+        <li>Paste this email into the "Add people" box:<br>
+          <code>drakos-bot@gothic-client-329620.iam.gserviceaccount.com</code>
+        </li>
+        <li>Set the access to <b>Viewer</b> (the bot only reads, never writes) and click <b>Share</b> / <b>Send</b>. You
+          can untick "Notify people".</li>
+        <li>Copy the <b>full sheet URL</b> from your browser's address bar - you'll paste it into
+          <code class="cmd">/setup</code> in the next step.
+        </li>
+      </ol>
       <div class="note">Skipping this step is the #1 cause of "Failed to fetch" errors. The bot cannot see your sheet
         until it's shared.</div>
     </details>
