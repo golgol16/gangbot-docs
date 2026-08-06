@@ -269,6 +269,23 @@
       margin-bottom: 4px;
     }
 
+    details.reqbox {
+      padding: 16px 22px;
+      margin: 20px 0;
+    }
+
+    details.reqbox summary {
+      font-size: 17px;
+    }
+
+    details.reqbox p {
+      color: var(--text);
+    }
+
+    details.reqbox h3:first-of-type {
+      margin-top: 20px;
+    }
+
     footer {
       color: var(--dim);
       font-size: 13px;
@@ -310,11 +327,13 @@
     <h2 id="setup">Setting up the bot <span class="tag admin">server admins</span></h2>
     <p class="lead">Everything from zero to fully running, in order. You need Discord <b>Administrator</b> permission in
       your server.</p>
-
     <div class="note">The bot does nothing until <code class="cmd">/setup</code> is completed - every command just
       replies "This server is not set up yet".</div>
 
-    <h3>Step 1 - Enable Developer Mode (for copying IDs)</h3>
+    <details class="reqbox">
+      <summary>📋 Requirements - get these ready before running /setup</summary>
+
+      <h3>Req 1 - Enable Developer Mode (for copying IDs)</h3>
     <ol class="steps">
       <li>Open Discord <b>User Settings</b> (⚙️ next to your name) → <b>Advanced</b> → turn <b>Developer Mode</b> ON.
       </li>
@@ -324,19 +343,22 @@
     <p><i>You won't need IDs during <code class="cmd">/setup</code> itself - it uses Discord's pickers where you select
         roles and channels from a list. IDs matter later for <code class="cmd">/editconfig</code> values.</i></p>
 
-    <h3>Step 2 - Create the roles</h3>
+    <h3>Req 2 - Have the roles ready</h3>
     <ol class="steps">
       <li>Go to <b>Server Settings → Roles</b> and make sure you have a <b>gang role</b> - the role every active member
         carries. The bot pings this role for KOS declarations and the daily roster call, and it gates
         <code class="cmd">/sheets</code> and <code class="cmd">/sticky</code>. An existing "Active Roster" role works
-        fine.</li>
-      <li>Make sure you have a <b>command role</b> - your staff/leadership role. <b>This one matters:</b> it controls
+        fine.
+      </li>
+      <li>Make sure you have a <b>command role</b> - your staff/leadership role, usually the role you use for your
+        command chats. <b>This one matters:</b> it controls
         who can end a KOS, pick WON/LOST, edit war records, run <code class="cmd">/changeresult</code>, and (unless you
         split them later) <code class="cmd">/pricelist</code>, <code class="cmd">/weekly</code> and
-        <code class="cmd">/warns</code>.</li>
+        <code class="cmd">/warns</code>.
+      </li>
     </ol>
 
-    <h3>Step 3 - Create the channels</h3>
+    <h3>Req 3 - Create the channels</h3>
     <ol class="steps">
       <li><b>War record channel</b> (required) - where the bot logs every finished KOS with its WON/LOST result and
         attendance list. Usually locked so only the bot posts.</li>
@@ -348,7 +370,7 @@
           Reactions</b>. If the channel is locked down, add the bot's role to the channel overrides.</li>
     </ol>
 
-    <h3>Step 4 - Share your Google Sheet with the bot <i>(skip if your gang has no sheet)</i></h3>
+    <h3>Req 4 (Optional) - Share your Google Sheet with the bot <i>(skip if your gang has no sheet)</i></h3>
     <p><i>The sheet is optional. Without one, everything works except the sheet-powered commands:
         <code class="cmd">/pricelist</code>, <code class="cmd">/rules</code>, <code class="cmd">/warns</code> and
         <code class="cmd">/contactlist</code> - they'll reply "needs a Google Sheet" until an admin adds one via
@@ -357,16 +379,19 @@
       <li>Open your gang's Google Sheet in a browser.</li>
       <li>Click the green <b>Share</b> button (top-right).</li>
       <li>Paste this email into the "Add people" box:<br>
-        <code>drakos-bot@gothic-client-329620.iam.gserviceaccount.com</code></li>
+        <code>drakos-bot@gothic-client-329620.iam.gserviceaccount.com</code>
+      </li>
       <li>Set the access to <b>Viewer</b> (the bot only reads, never writes) and click <b>Share</b> / <b>Send</b>. You
         can untick "Notify people".</li>
       <li>Copy the <b>full sheet URL</b> from your browser's address bar - you'll paste it into
-        <code class="cmd">/setup</code> in the next step.</li>
+        <code class="cmd">/setup</code> in the next step.
+      </li>
     </ol>
-    <div class="note">Skipping this step is the #1 cause of "Failed to fetch" errors. The bot cannot see your sheet
-      until it's shared.</div>
+      <div class="note">Skipping this step is the #1 cause of "Failed to fetch" errors. The bot cannot see your sheet
+        until it's shared.</div>
+    </details>
 
-    <h3>Step 5 - Run /setup</h3>
+    <h3>Step 1 - Run /setup</h3>
     <p>Type <code class="cmd">/setup</code> in any channel and fill in each box. Roles and channels appear as pickers -
       just select from the list.</p>
     <div class="tablebox">
@@ -385,22 +410,22 @@
         <tr>
           <td><code>gangrole</code></td>
           <td>✅</td>
-          <td>Pick the <b>gang role</b> from Step 2 in the role picker.</td>
+          <td>Pick the <b>gang role</b> from Req 2 in the role picker.</td>
         </tr>
         <tr>
           <td><code>commandrole</code></td>
           <td>✅</td>
-          <td>Pick the <b>command role</b> from Step 2. Remember: this locks all staff commands.</td>
+          <td>Pick the <b>command role</b> from Req 2. Remember: this locks all staff commands.</td>
         </tr>
         <tr>
           <td><code>warrecordchannel</code></td>
           <td>✅</td>
-          <td>Pick the war record channel from Step 3.</td>
+          <td>Pick the war record channel from Req 3.</td>
         </tr>
         <tr>
           <td><code>sheetid</code></td>
           <td>optional</td>
-          <td>Paste the <b>full sheet URL</b> you copied in Step 4. The bot extracts the sheet ID and saves the link
+          <td>Paste the <b>full sheet URL</b> you copied in Req 4. The bot extracts the sheet ID and saves the link
             for <code class="cmd">/sheets</code> and <code class="cmd">/info</code> automatically. Skip if your gang
             has no sheet.</td>
         </tr>
@@ -417,23 +442,26 @@
       </table>
     </div>
 
-    <h3>Step 6 - Verify it worked</h3>
+    <h3>Step 2 - Verify it worked</h3>
     <ol class="steps">
       <li>Run <code class="cmd">/viewconfig</code> - roles and channels should render as blue mentions (not raw
         numbers), and the four sheet ranges show <i>(default)</i>.</li>
       <li>If you configured a sheet: run <code class="cmd">/rules rule:list</code> or
         <code class="cmd">/contactlist</code> - if data comes back, the sheet connection works. "Failed to fetch" =
-        Step 4 wasn't done or the URL was wrong.</li>
+        Req 4 wasn't done or the URL was wrong.
+      </li>
       <li>Run a test <code class="cmd">/kos gang:Test</code>, hit <b>🛑 End KOS</b>, pick a result, and confirm it lands
         in your war record channel. Delete the test posts after.</li>
     </ol>
 
-    <h3>Step 7 - Fine-tune with /editconfig (optional)</h3>
+    <h3>Fine-tuning with /editconfig (optional)</h3>
     <p>Change any single setting with <code class="cmd">/editconfig setting: value:</code>. For role/channel settings
       the value can be a mention (<code>@Role</code> / <code>#channel</code>) or a raw ID from right-click →
-      <b>Copy ID</b> (Step 1). Common tweaks: split <code class="cmd">/pricelist</code>/<code class="cmd">/weekly</code>/<code class="cmd">/warns</code>
+      <b>Copy ID</b> (Req 1). Common tweaks: split <code class="cmd">/pricelist</code>/<code
+        class="cmd">/weekly</code>/<code class="cmd">/warns</code>
       onto their own roles, set a <b>Logo URL</b> for <code class="cmd">/info</code>, or adjust <b>Roster Ranks</b> to
-      your gang's rank names.</p>
+      your gang's rank names.
+    </p>
 
     <h3>All settings (<code class="cmd">/editconfig</code>)</h3>
     <div class="tablebox">
@@ -676,13 +704,15 @@
     <details>
       <summary>"This server is not set up yet"</summary>
       <p>An administrator needs to run <code class="cmd">/setup</code> - nothing works before that. Full walkthrough in
-        <a href="#setup">Setting up the bot</a>.</p>
+        <a href="#setup">Setting up the bot</a>.
+      </p>
     </details>
     <details>
       <summary>Price list / rules / warns say "Failed to fetch"</summary>
       <p>Nine times out of ten: the sheet isn't shared with the service account (see <a href="#setup">Setting up the
-          bot</a>, Step 4), or the Sheet ID is wrong. Otherwise the range doesn't match your sheet's tab names - check
-        <code class="cmd">/viewconfig</code>.</p>
+          bot</a>, Req 4), or the Sheet ID is wrong. Otherwise the range doesn't match your sheet's tab names - check
+        <code class="cmd">/viewconfig</code>.
+      </p>
     </details>
     <details>
       <summary>The End KOS button says "interaction failed"</summary>
