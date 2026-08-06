@@ -568,6 +568,12 @@
           <td>Supplicant, Inactive, Next On</td>
         </tr>
         <tr>
+          <td>Roster Rank / Name / Phone Column</td>
+          <td>Table-style rosters: read rank/name/phone from separate columns (see <a href="#sheet">Sheet
+              layout</a>)</td>
+          <td>off - single-column mode</td>
+        </tr>
+        <tr>
           <td>Logo URL</td>
           <td>Logo shown on /info</td>
           <td>off</td>
@@ -595,7 +601,8 @@
         <tr>
           <td>Roster</td>
           <td><code>Dashboard!G3:G50</code></td>
-          <td>One column: rank name on its own row, then members as <code>Name | #Phone | CID | Discord</code>.</td>
+          <td>One column: rank name on its own row, then members as <code>Name | #Phone | CID | Discord</code>. Got a
+            table-style roster instead? See below.</td>
         </tr>
         <tr>
           <td>Rules</td>
@@ -609,6 +616,38 @@
         </tr>
       </table>
     </div>
+
+    <h3>Table-style rosters (one row per member)</h3>
+    <p>If your roster is a table - each member on their own row, with rank, name and phone in separate columns - skip
+      <b>Roster Range</b> / <b>Roster Ranks</b> entirely and instead set these three with
+      <code class="cmd">/editconfig</code>:</p>
+    <div class="tablebox">
+      <table>
+        <tr>
+          <th>Setting</th>
+          <th>Example</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>Roster Rank Column</td>
+          <td><code>Roster!C8:C40</code></td>
+          <td>The rank column. Start <b>below</b> the header row. Blank cells (merged ranks) inherit the rank above;
+            repeated ranks are grouped together.</td>
+        </tr>
+        <tr>
+          <td>Roster Name Column</td>
+          <td><code>Roster!D8:D40</code></td>
+          <td>The member name column. Rows with an empty name are skipped.</td>
+        </tr>
+        <tr>
+          <td>Roster Phone Column</td>
+          <td><code>Roster!F8:F40</code></td>
+          <td>Optional - leave unset for a roster without phone numbers.</td>
+        </tr>
+      </table>
+    </div>
+    <p>Once the rank and name columns are set, table mode takes over automatically. <b>Roster Hidden Ranks</b> still
+      works if you want to keep certain ranks out of <code class="cmd">/contactlist</code>.</p>
 
     <h2 id="members">Commands for everyone <span class="tag everyone">all members</span></h2>
     <p class="lead">No special role needed.</p>
